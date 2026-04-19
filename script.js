@@ -1,65 +1,68 @@
-const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";
-const SUPABASE_KEY = "YOUR_ANON_KEY";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// ВСТАВЬ СВОИ ДАННЫЕ FIREBASE
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 
-const authorInput = document.getElementById("author");
-const messageInput = document.getElementById("message");
-const sendBtn = document.getElementById("sendBtn");
-const messageList = document.getElementById("messageList");
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-async function loadMessages() {
-  const { data, error } = await client
-    .from("messages")
-    .select("*")
-    .order("created_at", { ascending: false });
+const sharedTextRef = ref(database, "sharedText");
 
-  if (error) {
-    console.error("Ошибка загрузки сообщений:", error.message);
-    return;
+const textArea = document.getElementById("sharedText");
+const saveButton = document.getElementById("saveButton");
+const clearButton = document.getElementById("clearButton");
+const status = document.getElementById("status");
+
+// Получение текста из базы в реальном времени
+onValue(sharedTextRef, (snapshot) => {
+  const value = snapshot.val();
+
+  if (value !== null) {
+    textArea.value = value;
+    status.textContent = "Данные синхронизированы";
+  } else {
+    textArea.value = "";
+    status.textContent = "Текст пока пустой";
   }
+}, (error) => {
+  status.textContent = "Ошибка чтения данных";
+  console.error(error);
+});
 
-  messageList.innerHTML = "";
+// Сохранение текста в базу
+saveButton.addEventListener("click", async () => {
+  const text = textArea.value;
 
-  data.forEach((item) => {
-    const li = document.createElement("li");
-
-    const meta = document.createElement("div");
-    meta.className = "meta";
-    meta.textContent = `${item.author} • ${new Date(item.created_at).toLocaleString()}`;
-
-    const text = document.createElement("div");
-    text.textContent = item.text;
-
-    li.appendChild(meta);
-    li.appendChild(text);
-    messageList.appendChild(li);
-  });
-}
-
-async function sendMessage() {
-  const author = authorInput.value.trim();
-  const text = messageInput.value.trim();
-
-  if (!author || !text) {
-    alert("Введите имя и сообщение");
-    return;
+  try {
+    await set(sharedTextRef, text);
+    status.textContent = "Изменения сохранены";
+  } catch (error) {
+    status.textContent = "Ошибка сохранения";
+    console.error(error);
   }
+});
 
-  const { error } = await client
-    .from("messages")
-    .insert([{ author, text }]);
-
-  if (error) {
-    console.error("Ошибка отправки сообщения:", error.message);
-    return;
+// Очистка текста
+clearButton.addEventListener("click", async () => {
+  try {
+    await set(sharedTextRef, "");
+    status.textContent = "Текст очищен";
+  } catch (error) {
+    status.textContent = "Ошибка очистки";
+    console.error(error);
   }
-
-  messageInput.value = "";
-  loadMessages();
-}
-
-sendBtn.addEventListener("click", sendMessage);
-
-loadMessages();
-setInterval(loadMessages, 2000);
+});
