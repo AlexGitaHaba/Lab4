@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фитнес-центр «Олимп»</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-shell">
+        <!-- Форма авторизации -->
+        <div id="loginForm" class="panel auth-panel">
+            <h2>Авторизация</h2>
+            <div class="form-row">
+                <label>Логин:</label>
+                <input type="text" id="loginInput" placeholder="consultant / client">
+            </div>
+            <div class="form-row">
+                <label>Пароль:</label>
+                <input type="password" id="passwordInput" placeholder="123">
+            </div>
+            <button id="loginBtn">Войти</button>
+            <p id="loginError" class="error-text" style="display: none;">Неверный логин или пароль</p>
+            <hr>
+            <p><strong>Тестовые учетные записи:</strong></p>
+            <p>Консультант: login = consultant, password = 123</p>
+            <p>Клиент: login = client, password = 123</p>
+        </div>
+
+        <!-- Панель консультанта -->
+        <div id="consultantPanel" class="panel" style="display: none;">
+            <div class="panel-header">
+                <div>
+                    <h1>Фитнес-центр «Олимп»</h1>
+                    <h2>Панель консультанта</h2>
+                    <p class="muted">Выявление аномальных цен по правилу трёх сигм</p>
+                </div>
+                <button id="logoutBtn1" class="secondary-btn">Выйти</button>
+            </div>
+
+            <div class="grid-layout">
+                <section class="card">
+                    <h3>Загрузка данных</h3>
+                    <p><strong>Загрузите файл services.json:</strong></p>
+                    <input type="file" id="fileInput" accept=".json">
+                    <div class="button-row">
+                        <button id="detectBtn" disabled>Выявить аномальные цены (3σ)</button>
+                    </div>
+                    <div id="statusMessage" style="display: none;"></div>
+                </section>
+
+                <section class="card">
+                    <h3>Синхронизация между устройствами</h3>
+                    <p class="muted">Для оценки на 5 можно менять общий текст на ПК и смартфоне. После подключения Firebase изменения будут видны на обоих устройствах.</p>
+                    <label for="sharedAnnouncementInput"><strong>Общее объявление:</strong></label>
+                    <textarea id="sharedAnnouncementInput" rows="5" placeholder="Например: Сегодня скидка 15% на персональные тренировки"></textarea>
+                    <div class="button-row">
+                        <button id="saveSharedAnnouncementBtn">Сохранить объявление</button>
+                    </div>
+                    <div id="syncStatus" class="small-text muted">Firebase не подключен. Сейчас доступен только локальный просмотр.</div>
+                </section>
+            </div>
+
+            <section id="servicesTableContainer" class="card" style="display: none;">
+                <h3>Список услуг</h3>
+                <div id="statsSummary" class="stats-box"></div>
+                <div class="table-scroll">
+                    <table border="1" cellpadding="5" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Описание</th>
+                                <th>Цена (₽)</th>
+                                <th>Тип активности</th>
+                                <th>Аномалия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="servicesTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="anomalyEditPanel" class="card" style="display: none;">
+                <h3>Коррекция аномальных значений</h3>
+                <p>В строках с аномальной ценой выделены поля ввода. Измените значения и нажмите кнопку ниже.</p>
+                <div class="button-row">
+                    <button id="applyCorrectionsBtn">Применить исправления</button>
+                    <button id="resetToOriginalBtn" class="secondary-btn">Сбросить к загруженным ценам</button>
+                </div>
+            </section>
+
+            <section id="exportPanel" class="card" style="display: none;">
+                <h3>Экспорт</h3>
+                <button id="exportJsonBtn">Экспорт обновлённого services.json</button>
+            </section>
+        </div>
+
+        <!-- Панель клиента -->
+        <div id="clientPanel" class="panel" style="display: none;">
+            <div class="panel-header">
+                <div>
+                    <h1>Фитнес-центр «Олимп»</h1>
+                    <h2>Личный кабинет клиента</h2>
+                </div>
+                <button id="logoutBtn2" class="secondary-btn">Выйти</button>
+            </div>
+
+            <section class="card">
+                <h3>Общее объявление</h3>
+                <div id="sharedAnnouncementView" class="announcement-box">Здесь будет отображаться общее объявление.</div>
+                <p class="small-text muted">Этот блок можно показать как пример синхронизации между ПК и смартфоном.</p>
+            </section>
+
+            <section class="card">
+                <h3>Ваши персональные характеристики</h3>
+                <div id="clientProfile"></div>
+            </section>
+
+            <section class="card">
+                <h3>Рекомендованные услуги</h3>
+                <div id="recommendedServices"></div>
+            </section>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
