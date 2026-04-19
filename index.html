@@ -3,26 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Общий чат</title>
+  <title>Синхронизация текста</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Общий чат</h1>
+  <div class="page">
+    <header class="header">
+      <h1>Общий текст</h1>
+      <p class="subtitle">
+        Изменения на одном устройстве отображаются на другом
+      </p>
+    </header>
 
-    <div class="form-block">
-      <input type="text" id="author" placeholder="Ваше имя" />
-      <textarea id="message" placeholder="Введите сообщение"></textarea>
-      <button id="sendBtn">Отправить</button>
-    </div>
+    <main class="main">
+      <section class="card">
+        <label for="sharedText" class="label">Текст</label>
+        <textarea
+          id="sharedText"
+          placeholder="Введите текст..."
+        ></textarea>
 
-    <div class="messages">
-      <h2>Сообщения</h2>
-      <ul id="messageList"></ul>
-    </div>
+        <div class="buttons">
+          <button id="saveButton">Сохранить</button>
+          <button id="clearButton" class="secondary">Очистить</button>
+        </div>
+
+        <p id="status" class="status">Подключение...</p>
+      </section>
+    </main>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
