@@ -1,264 +1,77 @@
-:root {
-    --bg: #f5f7fb;
-    --panel: #ffffff;
-    --border: #d9e0ea;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --accent: #2563eb;
-    --accent-soft: #dbeafe;
-    --danger-soft: #fee2e2;
-    --success-soft: #dcfce7;
-}
-
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    color: var(--text);
-    background: var(--bg);
+  background: #f4f4f4;
+  padding: 20px;
 }
 
-.page-shell {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 20px;
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
 }
 
-.panel {
-    width: 100%;
+h1, h2 {
+  margin-bottom: 15px;
 }
 
-.auth-panel,
-.card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
-}
-
-.auth-panel {
-    max-width: 420px;
-    margin: 40px auto;
-    padding: 24px;
-}
-
-.card {
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-.grid-layout {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-}
-
-h1, h2, h3 {
-    margin-top: 0;
-}
-
-.muted,
-.small-text {
-    color: var(--muted);
-}
-
-.small-text {
-    font-size: 14px;
-}
-
-.form-row {
-    margin-bottom: 12px;
-}
-
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
+.form-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
 }
 
 input,
 textarea,
 button {
-    font: inherit;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="number"],
-textarea,
-input[type="file"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: #fff;
+  padding: 12px;
+  font-size: 16px;
 }
 
 textarea {
-    resize: vertical;
-    min-height: 120px;
+  min-height: 100px;
+  resize: vertical;
 }
 
 button {
-    border: none;
-    border-radius: 10px;
-    padding: 10px 16px;
-    background: var(--accent);
-    color: white;
-    cursor: pointer;
+  cursor: pointer;
 }
 
-button:hover {
-    opacity: 0.92;
+.messages ul {
+  list-style: none;
 }
 
-.secondary-btn {
-    background: #475569;
+.messages li {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
 }
 
-.button-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 14px;
+.meta {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
 }
 
-.error-text {
-    color: #dc2626;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 760px;
-    margin-top: 10px;
-    background: #fff;
-}
-
-.table-scroll {
-    overflow-x: auto;
-}
-
-th,
-td {
+@media (max-width: 768px) {
+  body {
     padding: 10px;
-    border: 1px solid var(--border);
-    text-align: left;
-    vertical-align: top;
-}
+  }
 
-th {
-    background-color: #eef2ff;
-}
-
-.anomaly-row {
-    background-color: #fff1f2;
-}
-
-.price-input {
-    width: 100%;
-    min-width: 90px;
-}
-
-.badge {
-    background-color: #fecaca;
-    padding: 4px 8px;
-    font-size: 12px;
-    border-radius: 999px;
-    display: inline-block;
-}
-
-#statusMessage,
-.stats-box,
-.announcement-box {
-    margin-top: 12px;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background-color: #f8fafc;
-}
-
-.error-status {
-    background-color: var(--danger-soft);
-    border-color: #ef4444;
-}
-
-.success-status {
-    background-color: var(--success-soft);
-    border-color: #22c55e;
-}
-
-.client-card,
-.service-item {
-    border: 1px solid var(--border);
-    border-radius: 12px;
+  .container {
     padding: 15px;
-    margin: 10px 0;
-    background-color: #f9fafb;
-}
+  }
 
-.client-card p {
-    margin: 8px 0;
-}
-
-.service-item strong {
-    color: #111827;
-}
-
-@media (max-width: 900px) {
-    .grid-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .panel-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .panel-header button {
-        width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .page-shell {
-        padding: 12px;
-    }
-
-    .auth-panel,
-    .card {
-        padding: 16px;
-        border-radius: 14px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    h3 {
-        font-size: 18px;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    .button-row {
-        flex-direction: column;
-    }
+  input,
+  textarea,
+  button {
+    font-size: 15px;
+  }
 }
