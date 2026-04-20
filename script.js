@@ -15,7 +15,7 @@ const firebaseConfig = {
   appId: "1:905535478342:web:1ff617525da2de61700847"
 };
 
-// 🔥 ВАЖНО: правильный URL базы
+
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(
   app,
@@ -29,7 +29,7 @@ const saveButton = document.getElementById("saveButton");
 const clearButton = document.getElementById("clearButton");
 const status = document.getElementById("status");
 
-// 📡 слушаем изменения
+
 onValue(sharedTextRef, (snapshot) => {
   const value = snapshot.val();
 
@@ -42,7 +42,7 @@ onValue(sharedTextRef, (snapshot) => {
   }
 });
 
-// 💾 сохранить
+
 saveButton.addEventListener("click", async () => {
   try {
     await set(sharedTextRef, textArea.value);
@@ -53,7 +53,7 @@ saveButton.addEventListener("click", async () => {
   }
 });
 
-// 🧹 очистить
+
 clearButton.addEventListener("click", async () => {
   try {
     await set(sharedTextRef, "");
